@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tasks List{% endblock %}
+
+{% block body %}
+
+<div class="table-responsive">
+
+<table id="tasks" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Task</th>
+            <th scope="col"></th>
+            <th scope="col">Status <a href="{{ path('tasks_list', { 'order' : order }) }}"><i class="fa fa-sort"></i></a></th>
+            {% if app.user %}
+            <th scope="col">Actions</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% set n = 1 %}
+        {% for task in tasks %}
+        <tr>
+            <td>{{ n }}</td>
+            <td>{{ task.task }}</td>
+            <td>
+                {% if task.adminEdit == 1 %}
+                <span class="badge badge-secondary">edited by admin</span>
+                {% endif %}
+            </td>
+            <td>
+                <span
+                    {% if task.status == 0 %}
+                          class="badge badge-danger"
+                    {% elseif task.status == 1 %}
+                          class="badge badge-warning"
+                    {% else %}
+                          class="badge badge-success"
+                    {% endif %}>
+
+                    {{ task.getStatusName }}
+                </span>
+            </td>
+            {% if app.user %}
+            <td>
+                <button class="btn btn-info btn-sm close-task" data-id="{{ task.id }}">Close Task</button>
+                <a href="/task/edit/{{ task.id }}" class="btn btn-warning btn-sm">Edit</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% set n = n + 1 %}
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/main.js"></script>
+{% endblock %}

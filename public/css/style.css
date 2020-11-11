@@ -1,0 +1,11 @@
+.navbar {
+    margin-bottom: 3rem;
+}
+
+.badge {
+    text-transform: uppercase;
+}
+
+.table td, .table th {
+    white-space: nowrap;
+}
